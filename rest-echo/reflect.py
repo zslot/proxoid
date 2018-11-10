@@ -17,8 +17,18 @@ class RequestHandler(BaseHTTPRequestHandler):
         print(self.headers)
         print("<----- Request End -----\n")
         
+        #self.send_response(200)
+        #self.send_header("Content-type", 'text/xml')
+        #self.wfile.write(request_path + "\n")
+        #self.send_response(200)
+
         self.send_response(200)
-        self.send_header("Set-Cookie", "foo=bar")
+        self.send_header('Content-type','text/html')
+        self.end_headers()
+        # Send the html message
+        self.wfile.write(request_path + "\n")
+
+        #self.send_header("Set-Cookie", "request=" + request_path)
         
     def do_POST(self):
         
