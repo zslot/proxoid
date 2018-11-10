@@ -4,6 +4,7 @@
 
 from BaseHTTPServer import HTTPServer, BaseHTTPRequestHandler
 from optparse import OptionParser
+import sys
 
 class RequestHandler(BaseHTTPRequestHandler):
     
@@ -40,13 +41,19 @@ class RequestHandler(BaseHTTPRequestHandler):
     do_DELETE = do_GET
         
 def main():
-    port = 8080
+    try:
+        port = int(sys.argv[1])
+        print port
+    except:
+        print "USAGE: script.py port"
+        sys.exit(1)
     print('Listening on localhost:%s' % port)
     server = HTTPServer(('', port), RequestHandler)
     server.serve_forever()
 
         
 if __name__ == "__main__":
+
     parser = OptionParser()
     parser.usage = ("Creates an http-server that will echo out any GET or POST parameters\n"
                     "Run:\n\n"
