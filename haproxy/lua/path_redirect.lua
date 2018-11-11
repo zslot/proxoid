@@ -36,13 +36,16 @@ local function path_redirect(txn)
     core.log(core.info, 'TXN: ' .. helper.dump(txn.http:req_get_headers()))
 
     local encoded = hdr['x-auth-token'][0]
-    local x = string.gmatch(encoded, "{.*}")
-    
-    
-    -- core.log(core.info, 'sc: ' .. x)
-    
-
-    local reg, serv =  infra.redirect('region1', path_start)
+    local x
+    for s in string.gmatch(encoded, "{.*}") do
+        x = s
+        core.log(core.info, 's: ' .. s)
+    end
+    core.log(core.info, 'xxxxx: ' .. helper.dump(x))
+    local sco = json.decode(x)
+    core.log(core.info, 'dddddd: ' .. helper.dump(sco))
+  
+    local reg, serv =  infra.redirect(sco['Nova'], path_start)
     return reg
 end
 
